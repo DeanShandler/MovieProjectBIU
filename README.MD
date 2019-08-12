@@ -10,6 +10,5 @@ Requirements:
 Steps:
 1. Open PyCharm 
 2. Type the following into the terminal: git clone https://github.com/DeanShandler/MovieProjectBIU.git
-4. locate requirements.txt file and place it in main project directory 
-5. type in Python terminal this line: 'pip install -r requirements.txt' - This will install all dependencies.
-6. Run the program and follow the steps."# MovieProjectBIU" 
+3. After cloning the dipository type this into the terminal: 'pip install -r requirements.txt'
+4. Run the program and follow the steps."# MovieProjectBIU" 
