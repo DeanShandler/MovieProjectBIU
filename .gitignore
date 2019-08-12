@@ -1,0 +1,12 @@
+runFiles
+Shrek.mp4
+output.mp4
+ffmpeg.exe
+venv
+graph.png
+.idea
+_pycache_
+setup.py
+graph_script_test_shrek.mp4
+__main.spec
+build
