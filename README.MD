@@ -16,3 +16,7 @@ Steps:
 4. Download ffmpeg from this link: https://ffmpeg.org/download.html
 5. place the ffmpeg.exe in project directory.
 4. Run the program and follow the steps.
+
+More Info:
+1. I've added the script for the movie Shrek and it's subtitles for testing purpuses.
+2. Place those files in the projects directory.
