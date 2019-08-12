@@ -15,4 +15,4 @@ Steps:
 3. After cloning the ripository type this into the terminal: 'pip install -r requirements.txt'
 4. Download ffmpeg from this link: https://ffmpeg.org/download.html
 5. place the ffmpeg.exe in project directory.
-4. Run the program and follow the steps."# MovieProjectBIU" 
+4. Run the program and follow the steps.
