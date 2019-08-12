@@ -3,6 +3,10 @@ Uses two different method to analyze movies
 1. Script + SRT (complex)
 2. Only SRT (simple)
 
+This project implements the idea of using two clocks to analyze plays and movie scripts. An idea represented in “The Tale of Two Clocks” by Zvi Lotker.
+The Two Clocks algorithm identify critical events in a given relationship network using the drift between two clocks.
+Analyzing movie scripts and their subtitles to output the exact moments of critical events in a given movie and represent these moments in a graph that is later applied to the movie!
+
 Requirements:
 1. Python 3 installed on PC
 2. Python IDE installed (Preferbly PyCharm)
