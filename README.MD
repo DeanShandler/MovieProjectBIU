@@ -7,6 +7,7 @@ Requirements:
 1. Python 3 installed on PC
 2. Python IDE installed (Preferbly PyCharm)
 3. Pip (python package manager installed)
+4. git installed
 
 Steps:
 1. Open PyCharm 
