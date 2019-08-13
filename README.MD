@@ -24,4 +24,3 @@ Steps:
 More Info:
 1. I've added the script for the movie Shrek and it's subtitles for testing purpuses.
 2. Place those files in the projects directory.
->>>>>>> 8b3d6fcb84db0671fc511b794a65a4cd0aba2785
