@@ -13,3 +13,4 @@ Steps:
 4. locate requirements.txt file and place it in main project directory 
 5. type in Python terminal this line: 'pip install -r requirements.txt' - This will install all dependencies.
 6. Run the program and follow the steps."# MovieProjectBIU" 
+"# MovieProjectBIU" 

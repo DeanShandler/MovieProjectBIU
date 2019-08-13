@@ -2,12 +2,12 @@
 movie_path = "Shrek.mp4"
 spc_to_name = 37
 spc_to_sent = 25
-script_name = "runFiles/shrek.txt"
-movie_name = "Shrek"
-subs_name = "runFiles/subshrek.txt"
-num_of_max = 5
-num_of_min = 5
-movie_name = 'shrek'
+script_name = "event_horizon.txt"
+movie_name = "event_horizon"
+subs_name = "eventhorizonsubs.txt"
+num_of_max = 40
+num_of_min = 40
+
 ##############################
 
 bookmarks_path = "runFiles/bookmarks.txt"
