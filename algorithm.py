@@ -17,7 +17,7 @@ from moviepy.editor import VideoFileClip
 clk_1_size = 0
 clk_2_size = 0
 first_clk_2 = 0
-SIZE_OF_INTER = 20
+SIZE_OF_INTER = 1
 my_dpi = 96
 MOD_VAL = 5
 
@@ -179,7 +179,9 @@ def graph_plot(path, movie_name):
     plt.xlabel('Speaker Change')
     plt.ylabel('DV')
     plt.title(movie_name)
+    plt.savefig('runFiles/graph_plot_noisy.png')
     plt.show()
+
 
 
 # Graph plot + interpolate for N(Clk1) and N(Clk1-Clk2)
@@ -204,49 +206,7 @@ def graph_plot_inter(path, movie_name):
     plt.figure(figsize=(1080 / my_dpi, 92 / my_dpi), dpi=my_dpi)
     plt.plot(xnew, f2(xnew), '-')
     plt.axis('off')
-    plt.savefig('runFiles/my_fig.png')
-    plt.show()
-
-
-# Bookmark graph - using Matplotlib
-def bookmark_graph(LENGTH_OF_MOVIE, bm_path, movie):
-
-    cap = cv2.VideoCapture(movie)
-    ret, frame = cap.read()
-    frame_h, frame_w, frame_c = frame.shape
-
-    with open(bm_path, "r") as f:
-        line = f.readline()
-        ts_minute_list = []
-        prev_appended = 0
-        while line:
-            hour = float(line[1])
-            if float(line[3]) == 0:
-                minute = float(line[4])
-            else:
-                minute = float(line[3:5])
-            if float(line[6]) == 0:
-                second = float(line[7])
-            else:
-                second = float(line[6:8])
-            f_min = (hour*60) + minute + (second/60)
-            if (f_min - prev_appended) >= 3:
-                ts_minute_list.append(f_min)
-                prev_appended = f_min
-
-            line = f.readline()
-
-    normal_stamps = []
-    for i in ts_minute_list:
-        normal_stamps.append(i/LENGTH_OF_MOVIE)
-    normal_stamps.append(1)
-    normal_stamps.append(0)
-    val = 0  # this is the value where you want the data to appear on the y-axis.
-    plt.xlim(0, 1)
-    plt.figure(figsize=(frame_w / my_dpi, (frame_h * 0.1) / my_dpi), dpi=my_dpi)
-    plt.axis('off')
-    plt.plot(normal_stamps, np.zeros_like(normal_stamps) + val, "*")
-    plt.savefig('runFiles/bookmarks.png')
+    plt.savefig('runFiles/graph_plot_interpolation.png')
     plt.show()
 
 
@@ -291,7 +251,7 @@ def bookmark_png(movie_length, bm_path, movie):
         x = int(frame_w * i)
         image_draw.ellipse((x-5, y-20, x+5, y+20), fill="black", outline="black")
 
-    image.save('runFiles/bookmarks.png')
+    image.save('runFiles/action_bookmarks.png')
 
 
 # Here we clean the subtitles of the movie from all parentheses using a REGEX
@@ -398,9 +358,12 @@ def find_word_index_with_matching_sequences(normal_word_list, script_path, srt_p
         splitted_script = script_data.split()
 
         for word in actual_critical_words:
-            script_seq = [splitted_script[word-2] + " " + splitted_script[word-1] + " " + splitted_script[word]
-                          + " " + splitted_script[word+1] + " " + splitted_script[word+2]]
-            script_seq_list.append(script_seq)
+            try:
+                script_seq = [splitted_script[word-2] + " " + splitted_script[word-1] + " " + splitted_script[word]
+                              + " " + splitted_script[word+1] + " " + splitted_script[word+2]]
+                script_seq_list.append(script_seq)
+            except IndexError:
+                continue
 
     with open(srt_path, "r") as srt:
         srt_data = srt.read()
@@ -616,13 +579,12 @@ def png_graph(mod_val, clks_path, movie_path):
     next_y = 0
     for i in range(0, len(x_axis)):
         next_x = int(frame_w * x_axis[i])
-        #image_draw.ellipse((x, y+1, x, y+5), fill="black", outline="black")
         next_y = int((1 - y_axis[i]) * float(image_height))
         image_draw.line([(prev_x, prev_y), (next_x, next_y)], fill=(0, 0, 0), width=2)
         prev_x = next_x
         prev_y = next_y
 
-    image.save('runFiles/graphBookmarks.png')
+    image.save('runFiles/graph_for_watermarking.png')
     image.save('graph.png')
 
 
@@ -684,9 +646,9 @@ def normal_clks_srt(path):
 
 
 # Create a png graph using the Two Clocks CSV file
-def png_graph_srt(mod_val, clks_path, movie_path):
+def png_graph_srt(mod_val, n_clks_path, movie_path):
 
-    csv_file = open(clks_path, 'r')
+    csv_file = open(n_clks_path, 'r')
     csv_reader = csv.reader(csv_file)
     next(csv_reader)
 
@@ -731,8 +693,7 @@ def png_graph_srt(mod_val, clks_path, movie_path):
         prev_x = next_x
         prev_y = next_y
 
-    image.save('runFiles/graphBookmarks_srt.png')
-    image.save('graph.png')
+    image.save('runFiles/graph_for_watermarking.png')
 
 
 def find_word_index_for_srt_normal_clocks(normal_word_list):
@@ -746,6 +707,46 @@ def find_word_index_for_srt_normal_clocks(normal_word_list):
     return actual_critical_words
 
 
+# Bookmark graph - using Matplotlib
+def bookmark_graph(LENGTH_OF_MOVIE, bm_path, movie):
+
+    cap = cv2.VideoCapture(movie)
+    ret, frame = cap.read()
+    frame_h, frame_w, frame_c = frame.shape
+
+    with open(bm_path, "r") as f:
+        line = f.readline()
+        ts_minute_list = []
+        prev_appended = 0
+        while line:
+            hour = float(line[1])
+            if float(line[3]) == 0:
+                minute = float(line[4])
+            else:
+                minute = float(line[3:5])
+            if float(line[6]) == 0:
+                second = float(line[7])
+            else:
+                second = float(line[6:8])
+            f_min = (hour*60) + minute + (second/60)
+            if (f_min - prev_appended) >= 3:
+                ts_minute_list.append(f_min)
+                prev_appended = f_min
+
+            line = f.readline()
+
+    normal_stamps = []
+    for i in ts_minute_list:
+        normal_stamps.append(i/LENGTH_OF_MOVIE)
+    normal_stamps.append(1)
+    normal_stamps.append(0)
+    val = 0  # this is the value where you want the data to appear on the y-axis.
+    plt.xlim(0, 1)
+    plt.figure(figsize=(frame_w / my_dpi, (frame_h * 0.1) / my_dpi), dpi=my_dpi)
+    plt.axis('off')
+    plt.plot(normal_stamps, np.zeros_like(normal_stamps) + val, "*")
+    plt.savefig('runFiles/action_bookmarks.png')
+    plt.show()
 
 
 
